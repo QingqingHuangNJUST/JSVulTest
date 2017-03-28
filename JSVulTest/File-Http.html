@@ -1,0 +1,11 @@
+<script>
+var aim = 'http://www.baidu.com';
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+	 if (xhr.readyState == 4){
+		alert(xhr.responseText);
+	 }
+};
+xhr.open('GET',aim,true);
+xhr.send(null);
+</script>

@@ -1,0 +1,11 @@
+<script>
+var aim='file:///mnt/sdcard/test.txt';
+var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function(){
+    if (xhr.readyState == 4){
+		 alert("获取到test.txt文件内容："+xhr.responseText);
+    }
+};
+xhr.open('GET',aim,true);
+xhr.send(null);
+</script>
